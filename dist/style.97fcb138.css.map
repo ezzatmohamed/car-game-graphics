@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.scss"],"names":[],"mappings":"AAAA;EACI;;;AAGJ;EACI;;;AAGJ;EACI","file":"style.97fcb138.css","sourceRoot":"..","sourcesContent":["#controls {\n    padding: 16px;\n}\n\n.control-label {\n    margin: 8px;\n}\n\n.control-row {\n    margin: 8px;\n}"]}
