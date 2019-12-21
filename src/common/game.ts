@@ -72,6 +72,8 @@ export default class Game {
             this.nextScene = null;
             this.currentScene.start(); // Tell the scene to initialize its objects
         }
+        // this.currentScene = this.nextScene;
+        // this.currentScene.start();
         if(this.currentScene != null){
             let state = this.currentScene.draw(time-this.lastTick); // Tell the scene to draw itself
             if (state == -1)

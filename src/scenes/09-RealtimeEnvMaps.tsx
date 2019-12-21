@@ -40,7 +40,14 @@ export default class RealtimeEnvironmentMapScene extends Scene {
     Timer :number = 59;
     Counter:number=60;
 
-    obstacles:[vec3,vec3,vec3,vec3,vec3,vec3] = [vec3.fromValues(6.226348400115967, 0.10000000149011612, 4.3423566818237305),vec3.fromValues(6.3263983726501465, 0.10000000149011612, 25.2528018951416),vec3.fromValues(5.425948619842529, 0.10000000149011612, 35.95822525024414),vec3.fromValues(6.3263983726501465, 0.10000000149011612, 49.2651252746582),vec3.fromValues(6.126298427581787, 0.10000000149011612, 97.08992004394531),vec3.fromValues(5.626048564910889, 0.10000000149011612, 115.3994140625)];
+    obstacles:[vec3,vec3,vec3,vec3,vec3,vec3,vec3,vec3,vec3,vec3,vec3,vec3] = [vec3.fromValues(6.226348400115967, 0.10000000149011612, 4.3423566818237305),vec3.fromValues(6.3263983726501465, 0.10000000149011612, 25.2528018951416),vec3.fromValues(5.425948619842529, 0.10000000149011612, 35.95822525024414),vec3.fromValues(6.3263983726501465, 0.10000000149011612, 49.2651252746582),vec3.fromValues(6.126298427581787, 0.10000000149011612, 97.08992004394531),        vec3.fromValues(5.626048564910889, 0.10000000149011612, 115.3994140625),
+        vec3.fromValues(5.891995429992676, 0.10000000149011612, 8.928543090820312),
+        vec3.fromValues(6.3680009841918945, 0.10000000149011612, 14.555791854858398),
+        vec3.fromValues(5.7389936447143555, 0.10000000149011612, 19.66914176940918),
+        vec3.fromValues(6.146998405456543, 0.10000000149011612, 29.843782424926758),
+        vec3.fromValues(5.908995628356934, 0.10000000149011612, 61.22829055786133),
+        vec3.fromValues(5.908995628356934, 0.10000000149011612, 61.22829055786133)
+    ];
 
 
     finishPosition: vec3 = vec3.fromValues(5.918750286102295, 0.10000000149011612, 119.62748718261719);
@@ -103,19 +110,13 @@ export default class RealtimeEnvironmentMapScene extends Scene {
         this.meshes['sky'] = MeshUtils.Plane(this.gl, {min:[0,0], max:[500,500]});
 
         this.meshes['house'] = MeshUtils.LoadOBJMesh(this.gl, this.game.loader.resources["house-model"]);
-
         this.meshes['obstacle'] = MeshUtils.LoadOBJMesh(this.gl, this.game.loader.resources["box"]);
         // this.meshes['obstacle'] = MeshUtils.LoadOBJMesh(this.gl, this.game.loader.resources["box"]);
         
-        this.currentMesh = 'suzanne';
+        // this.currentMesh = 'suzanne';
 
         this.gl.pixelStorei(this.gl.UNPACK_FLIP_Y_WEBGL, true);
         
-        this.textures['moon'] = this.gl.createTexture();
-        this.gl.bindTexture(this.gl.TEXTURE_2D, this.textures['moon']);
-        this.gl.pixelStorei(this.gl.UNPACK_ALIGNMENT, 4);
-        this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, this.game.loader.resources['moon-texture']);
-        this.gl.generateMipmap(this.gl.TEXTURE_2D);
         
         this.textures['ground'] = this.gl.createTexture();
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.textures['ground']);
@@ -147,14 +148,7 @@ export default class RealtimeEnvironmentMapScene extends Scene {
         this.gl.pixelStorei(this.gl.UNPACK_ALIGNMENT, 4);
         this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, this.game.loader.resources['obstacle']);
         this.gl.generateMipmap(this.gl.TEXTURE_2D);
-        
-        // For The gun 
-        this.textures['m4'] = this.gl.createTexture();
-        this.gl.bindTexture(this.gl.TEXTURE_2D, this.textures['m4']);
-        this.gl.pixelStorei(this.gl.UNPACK_ALIGNMENT, 4);
-        this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, this.game.loader.resources['m4-texture']);
-        this.gl.generateMipmap(this.gl.TEXTURE_2D);
-        
+
 
 
         // These will be our 6 targets for loading the images to the texture
@@ -305,7 +299,7 @@ export default class RealtimeEnvironmentMapScene extends Scene {
         }
     
         
-        for( let i = 0; i < 6; i++)
+        for( let i = 0; i < 12; i++)
         {
             if ( this.carPosition[0] < (this.obstacles[i][0]+0.12) && this.carPosition[0] > (this.obstacles[i][0]-0.12))
             {
@@ -380,7 +374,7 @@ export default class RealtimeEnvironmentMapScene extends Scene {
         program.setUniform1i('cube_texture_sampler', 0);
         this.gl.bindSampler(0, this.sampler);
 
-        this.meshes[this.currentMesh].draw(this.gl.TRIANGLES);
+        // this.meshes[this.currentMesh].draw(this.gl.TRIANGLES);
         return 1;
     }
 
@@ -403,7 +397,20 @@ export default class RealtimeEnvironmentMapScene extends Scene {
         program.setUniform1i('texture_sampler', 0);
         
         this.meshes['ground'].draw(this.gl.TRIANGLES);
+        // //=====================================================
+        // let skyMat = mat4.clone(VP);
+        // mat4.scale(skyMat, skyMat, [1000, 1, 1000.9]);
+        // mat4.translate(skyMat, skyMat, [1,0.24,0]);
+        // mat4.rotateX(skyMat,skyMat,1.1);
+        // program.setUniformMatrix4fv("MVP", false, skyMat);
+        // program.setUniform4f("tint", [0.96, 0.91, 0.64, 1]);
 
+        // this.gl.activeTexture(this.gl.TEXTURE0);
+        // this.gl.bindTexture(this.gl.TEXTURE_2D, this.textures['sky']);
+        // program.setUniform1i('texture_sampler', 0);
+        
+        // this.meshes['sky'].draw(this.gl.TRIANGLES);
+        //=====================================================
         let houseMat = mat4.clone(VP);
         mat4.translate(houseMat, houseMat, this.carPosition);
         mat4.scale(houseMat,houseMat,[0.05,0.03,0.04]);
@@ -417,7 +424,7 @@ export default class RealtimeEnvironmentMapScene extends Scene {
         this.meshes['house'].draw(this.gl.TRIANGLES);
 
         //===================================================
-        for(let i = 0; i < 6;i++)
+        for(let i = 0; i < 12;i++)
         {
             let obstacleMat = mat4.clone(VP);
             mat4.translate(obstacleMat, obstacleMat, this.obstacles[i]);
@@ -450,19 +457,7 @@ export default class RealtimeEnvironmentMapScene extends Scene {
       
         //======================================================
 
-        let moonMat = mat4.clone(VP);
-        mat4.translate(moonMat, moonMat, [0, 10, -15]);
-        mat4.rotateZ(moonMat, moonMat, Math.PI/8);
-        mat4.rotateY(moonMat, moonMat, performance.now()/1000);
-
-        program.setUniformMatrix4fv("MVP", false, moonMat);
-        program.setUniform4f("tint", [1, 1, 1, 1]);
-
-        this.gl.activeTexture(this.gl.TEXTURE0);
-        this.gl.bindTexture(this.gl.TEXTURE_2D, this.textures['moon']);
-        program.setUniform1i('texture_sampler', 0);
         
-        this.meshes['moon'].draw(this.gl.TRIANGLES);
     }
     
     public end(): void {
@@ -502,37 +497,6 @@ export default class RealtimeEnvironmentMapScene extends Scene {
             dv.setUint32(0, Number.parseInt(hex.slice(1), 16), true);
             return [dv.getUint8(2), dv.getUint8(1), dv.getUint8(0)];
         }
-        
-        // controls.appendChild(
-        //     <div>
-        //         <div className="control-row">
-        //             <label className="control-label">Model:</label>
-        //             <Selector options={Object.fromEntries(Object.keys(this.meshes).map((x)=>[x,x]))} value={this.currentMesh} onchange={(v)=>{this.currentMesh=v;}}/> 
-        //         </div>
-        //         <div className="control-row">
-        //             <label className="control-label">Tint:</label>
-        //             <input type="color" value={RGBToHex(this.tint)} onchange={(ev: InputEvent)=>{this.tint = HexToRGB((ev.target as HTMLInputElement).value)}}/>
-        //         </div>
-        //         <div className="control-row">
-        //             <input type="checkbox" checked={this.refraction?true:undefined} onchange={(ev: InputEvent)=>{this.refraction = ((ev.target as HTMLInputElement).checked)}}/>
-        //             <label className="control-label">Refractive Index:</label>
-        //             <input type="number" value={this.refractiveIndex} onchange={(ev: InputEvent)=>{this.refractiveIndex=Number.parseFloat((ev.target as HTMLInputElement).value)}} step="0.1"/>
-        //         </div>
-        //         <div className="control-row">
-        //             <label className="control-label">Object Position</label>
-        //             <Vector vector={this.objectPosition}/>    
-        //         </div>
-        //         <div className="control-row">
-        //             <label className="control-label">Object Rotation</label>
-        //             <Vector vector={this.objectRotation}/> 
-        //         </div>
-        //         <div className="control-row">
-        //             <label className="control-label">Object Scale</label>
-        //             <Vector vector={this.objectScale}/> 
-        //         </div>
-        //     </div>
-            
-        // );
         
     }
 

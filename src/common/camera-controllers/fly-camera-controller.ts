@@ -50,8 +50,8 @@ export default class FlyCameraController {
             // if(this.input.isKeyDown("s")) this.camera.position[2]-=speed;
             if(this.input.isKeyDown("d")) this.camera.position[0]-=0.017;
             if(this.input.isKeyDown("a")) this.camera.position[0]+=0.017;
-            if(this.input.isKeyDown("q")) movement[1] += 1;
-            if(this.input.isKeyDown("e")) movement[1] -= 1;
+            // if(this.input.isKeyDown("q")) movement[1] += 1;
+            // if(this.input.isKeyDown("e")) movement[1] -= 1;
             // vec3.normalize(movement, movement);
             
             // let movementSensitivity = this.input.isKeyDown(Key.Shift)?this.fastMovementSensitivity:this.movementSensitivity;
